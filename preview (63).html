@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Be Safe Pay — Treinamento de Awareness</title>
+<style>
+  :root{
+    --purple:#7b2cff;
+    --purple2:#4b0db8;
+    --purple3:#b26cff;
+    --ink:#17111f;
+    --muted:#62566f;
+    --white:#ffffff;
+    --danger:#ff3268;
+    --warn:#ffb020;
+    --ok:#18b26b;
+    --shadow:0 24px 70px rgba(40,10,80,.18);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#160824;color:var(--ink)}
+  body{overflow-x:hidden}
+  .top-training{
+    position:sticky;top:0;z-index:80;
+    background:linear-gradient(90deg,#160824,#3d116e,#7b2cff);
+    color:#fff;
+    padding:12px 18px;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    box-shadow:0 12px 28px rgba(0,0,0,.28);
+  }
+  .top-training strong{font-size:1rem}
+  .top-training span{font-size:.88rem;opacity:.9}
+  .score-pill{
+    background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:999px;
+    padding:8px 12px;
+    font-weight:900;
+    white-space:nowrap;
+  }
+  .app{
+    width:min(1540px,100%);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 360px;
+    gap:18px;
+    padding:0 18px 22px;
+  }
+  .browser{
+    width:100%;
+    margin:22px auto;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 34px 90px rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.16);
+    background:#eef0f5;
+  }
+  .browser-bar{
+    background:#e5e7ee;
+    padding:12px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .dot{width:12px;height:12px;border-radius:50%;background:#ff5f57;flex:0 0 auto}
+  .dot:nth-child(2){background:#ffbd2e}
+  .dot:nth-child(3){background:#28c840}
+  .address{
+    flex:1;background:white;border-radius:999px;padding:10px 14px;color:#2d2538;font-size:.9rem;
+    border:2px solid #ff3268;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    min-width:0;
+  }
+  .page{
+    background:#fff;
+    min-height:820px;
+    position:relative;
+  }
+  .nav{
+    min-height:76px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 46px;
+    background:#fff;
+    border-bottom:1px solid #f0e8ff;
+    gap:20px;
+  }
+  .brand{
+    display:flex;align-items:center;gap:12px;font-weight:950;font-size:1.45rem;color:var(--purple2);
+    letter-spacing:-.04em;
+  }
+  .mark{
+    width:38px;height:38px;border-radius:14px;
+    background:linear-gradient(135deg,var(--purple),var(--purple3));
+    color:white;display:grid;place-items:center;font-weight:950;
+    transform:rotate(-7deg);
+    flex:0 0 auto;
+  }
+  .links{display:flex;gap:24px;align-items:center;font-weight:750;color:#30243e}
+  .links a{color:inherit;text-decoration:none}
+  .enter{
+    border:0;background:#f0e6ff;color:var(--purple2);font-weight:950;
+    padding:12px 18px;border-radius:999px;cursor:pointer;
+  }
+  .hero{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    min-height:610px;
+    background:
+      radial-gradient(circle at 80% 10%,rgba(123,44,255,.18),transparent 35%),
+      linear-gradient(120deg,#fff 0%,#fff 48%,#7b2cff 48%,#5f18d8 100%);
+  }
+  .hero-copy{padding:70px 46px 50px}
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;background:#f1e8ff;color:var(--purple2);
+    border-radius:999px;padding:9px 13px;font-weight:950;font-size:.86rem;margin-bottom:22px;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(2.35rem,5vw,4.7rem);
+    line-height:.92;
+    letter-spacing:-.075em;
+    color:#1b1028;
+  }
+  .lead{font-size:1.18rem;line-height:1.55;color:#5c5368;max-width:560px;margin:22px 0}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+  .cta{
+    border:0;border-radius:999px;padding:15px 21px;font-weight:950;cursor:pointer;
+    background:var(--purple);color:white;box-shadow:0 12px 28px rgba(123,44,255,.24);
+  }
+  .cta.secondary{background:#fff;color:var(--purple2);border:1px solid #dccbff;box-shadow:none}
+  .phone-zone{
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    padding:46px;
+  }
+  .phone{
+    width:330px;
+    min-height:560px;
+    background:#111;
+    border-radius:42px;
+    padding:14px;
+    box-shadow:0 30px 70px rgba(0,0,0,.35);
+    transform:rotate(3deg);
+  }
+  .screen{
+    background:linear-gradient(180deg,#fdfbff,#f2eaff);
+    min-height:532px;border-radius:32px;padding:24px;color:#1d102b;position:relative;overflow:hidden;
+  }
+  .screen:before{
+    content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:92px;height:18px;background:#111;border-radius:0 0 14px 14px;
+  }
+  .card-balance{
+    margin-top:38px;
+    background:white;border-radius:24px;padding:18px;box-shadow:0 14px 32px rgba(70,20,130,.14);
+  }
+  .mini{font-size:.78rem;color:#72647e;font-weight:800}
+  .money{font-size:2rem;font-weight:950;margin:8px 0;color:#241033}
+  .fake-app-card{
+    margin-top:16px;background:linear-gradient(135deg,var(--purple),#3d0a9e);
+    border-radius:24px;padding:18px;color:white;
+  }
+  .login-panel{
+    width:min(430px,calc(100% - 28px));
+    margin:-84px auto 42px;
+    background:white;border-radius:30px;padding:26px;
+    box-shadow:var(--shadow);
+    border:1px solid #eadfff;
+    position:relative;z-index:5;
+  }
+  .login-panel h2{margin:0 0 6px;font-size:1.65rem;letter-spacing:-.04em}
+  .login-panel p{margin:0 0 20px;color:#675970}
+  label{display:block;font-weight:900;font-size:.82rem;color:#594c66;margin:12px 0 6px}
+  input{
+    width:100%;padding:15px;border:1px solid #ded3ee;border-radius:15px;font-size:1rem;
+    outline:none;background:#fbf9ff;
+  }
+  .submit{
+    width:100%;margin-top:18px;padding:15px;border:0;border-radius:17px;background:var(--purple);
+    color:white;font-weight:950;font-size:1rem;cursor:pointer;
+  }
+  .fineprint{
+    margin-top:14px;font-size:.75rem;color:#7b7187;line-height:1.45;text-align:center;
+  }
+  .warning-strip{
+    margin:22px auto 0;
+    width:min(980px,calc(100% - 36px));
+    background:#fff8dc;
+    border:1px solid #f0d36d;
+    border-radius:22px;
+    padding:18px;
+    color:#5d4300;
+    font-weight:800;
+    line-height:1.45;
+  }
+  .footer{
+    background:#1b1028;color:white;padding:38px 46px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  }
+  .footer h4{margin:0 0 10px;color:#d7c2ff}.footer p{margin:5px 0;color:#b8abc9;font-size:.88rem}
+  .hotspot{
+    position:relative;
+    outline:3px solid transparent;
+    border-radius:16px;
+    cursor:pointer;
+    transition:.18s ease;
+  }
+  .hotspot:hover{
+    outline-color:rgba(123,44,255,.18);
+    box-shadow:0 0 0 6px rgba(123,44,255,.06);
+  }
+  .hotspot.active{
+    outline-color:rgba(255,50,104,.52);
+    box-shadow:0 0 0 7px rgba(255,50,104,.10);
+  }
+  .flag{display:none!important}
+  .money-cursor{
+    position:fixed;
+    width:44px;
+    height:28px;
+    pointer-events:none;
+    z-index:9999;
+    transform:translate(-50%,-50%) rotate(-10deg);
+    border-radius:6px;
+    background:linear-gradient(135deg,#8ee86d,#eaff9b);
+    border:2px solid rgba(7,82,29,.55);
+    box-shadow:0 8px 18px rgba(0,0,0,.22);
+    display:grid;
+    place-items:center;
+    font-weight:950;
+    color:#07521d;
+    font-size:14px;
+  }
+  .money-cursor:before,.money-cursor:after{
+    content:"";
+    position:absolute;
+    width:8px;height:8px;border:1px solid rgba(7,82,29,.45);
+    border-radius:50%;
+  }
+  .money-cursor:before{left:5px}
+  .money-cursor:after{right:5px}
+  .side{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:28px;
+    padding:18px;
+    color:white;
+    height:calc(100vh - 126px);
+    position:sticky;
+    top:74px;
+    overflow:auto;
+    margin-top:22px;
+  }
+  .side h2{margin:0 0 8px;font-size:1.35rem}
+  .side .hint{color:#d8c9ec;font-size:.92rem;line-height:1.45;margin:0 0 16px}
+  .comment{
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:20px;
+    padding:16px;
+    min-height:170px;
+  }
+  .comment h3{margin:0 0 8px;color:#fff}
+  .comment p{margin:0;color:#eadfff;line-height:1.48}
+  .found-list{margin-top:16px;display:grid;gap:10px}
+  .found-item{
+    display:flex;gap:10px;align-items:flex-start;
+    background:rgba(0,0,0,.18);
+    border-radius:16px;padding:11px;border:1px solid rgba(255,255,255,.1);
+    color:#efe8ff;font-size:.9rem;
+  }
+  .check{color:#6effb6;font-weight:950}
+  .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .side button{
+    border:0;border-radius:14px;padding:11px 13px;font-weight:900;cursor:pointer;
+  }
+  .reset{background:#fff;color:#351057}
+  .reveal{background:#ffdb6d;color:#3d2700}
+  .cert-btn{background:#70ffb2;color:#062617}
+  .cert-btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
+  .toast{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);
+    background:#1b1028;color:white;border:1px solid rgba(255,255,255,.18);
+    border-radius:18px;padding:14px 18px;box-shadow:0 18px 44px rgba(0,0,0,.32);
+    opacity:0;pointer-events:none;transition:.2s ease;z-index:100;
+    max-width:min(680px,calc(100% - 28px));
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .modal{
+    position:fixed;inset:0;background:rgba(10,3,20,.78);z-index:200;
+    display:none;align-items:center;justify-content:center;padding:18px;
+    overflow:auto;
+  }
+  .modal.show{display:flex}
+  .modal-card{
+    width:min(760px,100%);
+    background:#fff;border-radius:28px;padding:28px;
+    box-shadow:0 30px 90px rgba(0,0,0,.4);
+  }
+  .modal-card h2{margin:0 0 10px;font-size:2rem;letter-spacing:-.04em;color:#1b1028}
+  .modal-card p{color:#5a5065;line-height:1.55}
+  .modal-card button{border:0;border-radius:16px;padding:14px 18px;background:var(--purple);color:white;font-weight:950;cursor:pointer}
+  .name-box{
+    display:grid;
+    gap:10px;
+    margin:18px 0;
+    background:#f6f0ff;
+    border:1px solid #e4d5ff;
+    border-radius:22px;
+    padding:16px;
+  }
+  .name-box input{background:white}
+  .error{display:none;color:#c21342;font-weight:850;font-size:.9rem}
+  .error.show{display:block}
+  .cert-preview{
+    width:100%;
+    max-height:70vh;
+    object-fit:contain;
+    border-radius:18px;
+    border:1px solid #e7ddf5;
+    background:#f6f0ff;
+  }
+  .cert-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .mobile-panel-title{display:none}
+  @media(max-width:1120px){
+    .app{display:block;padding:0 12px 20px}
+    .side{position:relative;top:auto;height:auto;margin:16px auto;width:100%}
+    .hero{grid-template-columns:1fr;background:#fff}
+    .phone-zone{background:linear-gradient(135deg,#7b2cff,#4b0db8)}
+    .login-panel{margin:22px auto}
+  }
+  @media(max-width:720px){
+    body{background:#160824}
+    .top-training{align-items:flex-start;flex-direction:column;padding:12px}
+    .top-training strong{font-size:.95rem}
+    .top-training span{font-size:.82rem}
+    .score-pill{width:100%;text-align:center}
+    .browser{border-radius:18px;margin:12px auto}
+    .browser-bar{padding:9px;gap:6px}
+    .dot{width:9px;height:9px}
+    .address{font-size:.72rem;padding:9px 10px}
+    .nav{padding:16px;align-items:flex-start;flex-direction:column}
+    .brand{font-size:1.28rem}
+    .links{flex-wrap:wrap;gap:10px;font-size:.84rem}
+    .enter{padding:10px 14px}
+    .hero-copy{padding:34px 18px}
+    h1{font-size:2.55rem;letter-spacing:-.06em;line-height:.98}
+    .lead{font-size:1rem}
+    .cta{width:100%}
+    .phone-zone{padding:26px 12px}
+    .phone{width:min(300px,100%);transform:none;border-radius:34px}
+    .screen{min-height:500px}
+    .money{font-size:1.7rem}
+    .login-panel{padding:20px;border-radius:24px}
+    .warning-strip{width:calc(100% - 24px);font-size:.9rem}
+    .footer{grid-template-columns:1fr;padding:28px 20px}
+    .flag{display:none!important}
+    .side{border-radius:22px;padding:14px}
+    .mobile-panel-title{display:block;color:#d8c9ec;font-size:.9rem;margin:0 0 12px}
+    .modal{align-items:flex-start}
+    .modal-card{padding:22px;border-radius:24px;margin-top:12px}
+    .modal-card h2{font-size:1.65rem}
+    .cert-actions button,.modal-card button{width:100%}
+  }
+</style>
+</head>
+<body>
+  <div class="money-cursor" id="moneyCursor">$</div>
+  <div class="top-training">
+    <div>
+      <strong>Treinamento Be Safe Pay — Identificação de página clonada</strong><br>
+      <span>Ambiente fictício. Explore a página e descubra os sinais de fraude escondidos.</span>
+    </div>
+    <div class="score-pill">Sinais encontrados: <span id="score">0</span>/12</div>
+  </div>
+
+  <div class="app">
+    <main>
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <div class="address hotspot" data-id="url">
+            🔒 https://be-safe-pay-seguro-cliente-atualizacao-login.com/entrar
+          </div>
+        </div>
+
+        <section class="page">
+          <nav class="nav">
+            <div class="brand hotspot" data-id="logo">
+              <div class="mark">B</div>
+              Be Safe Pay
+            </div>
+            <div class="links hotspot" data-id="nav">
+              <a href="#">Conta digital</a>
+              <a href="#">Cartão</a>
+              <a href="#">Pix</a>
+              <a href="#">Empréstimos</a>
+              <button class="enter">Entrar</button>
+            </div>
+          </nav>
+
+          <section class="hero">
+            <div class="hero-copy">
+              <div class="tag hotspot" data-id="urgent">
+                ⚡ Ação obrigatória hoje
+              </div>
+              <h1 class="hotspot" data-id="headline">
+                Sua conta precisa ser validada agora.
+              </h1>
+              <p class="lead hotspot" data-id="copy">
+                Detectamos uma “inconsistência crítica” no seu cadastro. Confirme seus dados para evitar bloqueio, multa operacional e análise manual do setor de segurança.
+              </p>
+              <div class="cta-row hotspot" data-id="cta">
+                <button class="cta">Regularizar minha conta</button>
+                <button class="cta secondary">Falar com suporte no WhatsApp</button>
+              </div>
+            </div>
+
+            <div class="phone-zone">
+              <div class="phone hotspot" data-id="phone">
+                <div class="screen">
+                  <div class="card-balance">
+                    <div class="mini">Saldo disponível</div>
+                    <div class="money">R$ 9.842,31</div>
+                    <div class="mini">Atualizado há 2 minutos</div>
+                  </div>
+                  <div class="fake-app-card">
+                    <div class="mini" style="color:#e8d9ff">Cartão Be Safe Pay</div>
+                    <h3 style="margin:8px 0 28px">Final 4040</h3>
+                    <div style="font-weight:900">Cliente Exemplo</div>
+                  </div>
+                  <p style="font-weight:800;color:#5e4b75">Novo dispositivo autorizado automaticamente.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="login-panel hotspot" data-id="form">
+            <h2>Acesse para concluir a verificação</h2>
+            <p>Informe os dados abaixo. Prometemos que é “super seguro”. Confia.</p>
+            <label>CPF</label>
+            <input placeholder="000.000.000-00">
+            <label>Senha de acesso</label>
+            <input type="password" placeholder="Digite sua senha">
+            <label>Token recebido por SMS</label>
+            <input placeholder="000000">
+            <label>Senha do cartão</label>
+            <input type="password" placeholder="4 dígitos">
+            <button class="submit">Confirmar desbloqueio</button>
+            <div class="fineprint">
+              Ao continuar, você autoriza validação cadastral, revisão emergencial, autenticação de dispositivo e outros termos que ninguém em sã consciência leria em uma página suspeita.
+            </div>
+          </div>
+
+          <div class="warning-strip hotspot" data-id="banner">
+            🔐 Atenção: por segurança, não feche esta página. Seu atendimento será encerrado em 03:00 minutos e sua conta poderá ser bloqueada automaticamente.
+          </div>
+
+          <footer class="footer hotspot" data-id="footer">
+            <div><h4>Be Safe Pay</h4><p>Banco digital fictício para treinamento.</p><p>CNPJ: 00.000.000/0000-00</p></div>
+            <div><h4>Ajuda</h4><p>Central indisponível</p><p>Suporte por WhatsApp</p></div>
+            <div><h4>Segurança</h4><p>Validação emergencial</p><p>Token obrigatório</p></div>
+            <div><h4>Políticas</h4><p>Termos genéricos</p><p>Privacidade confusa</p></div>
+          </footer>
+        </section>
+      </div>
+    </main>
+
+    <aside class="side">
+      <p class="mobile-panel-title">No celular, este painel fica abaixo da página para não esmagar o layout.</p>
+      <h2>Painel do Caçador de Clone</h2>
+      <p class="hint">Participante: <strong id="participantNameLabel">—</strong><br>Explore a página como se fosse um cliente real. Clique no que parecer estranho para revelar a análise.</p>
+      <div class="comment" id="comment">
+        <h3>Investigue a página</h3>
+        <p>Nem tudo que parece bonito é confiável. Clique nos pontos que você desconfiar e veja a análise.</p>
+      </div>
+      <div class="found-list" id="foundList"></div>
+      <div class="actions">
+        <button class="reset" id="resetBtn">Reiniciar</button>
+        <button class="reveal" id="revealBtn">Revelar tudo</button>
+        <button class="cert-btn" id="certBtn" disabled>Gerar certificado PNG</button><button class="reset" id="muteBtn">Som: ligado</button>
+      </div>
+      <p class="hint" id="certHint">Encontre pelo menos 10 sinais suspeitos para liberar o certificado.</p>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modal show" id="intro">
+    <div class="modal-card">
+      <h2>Identificação do participante</h2>
+      <p>Antes de começar, informe seu nome para constar no certificado PNG. Sem nome, sem certificado. O fraudador pede token... aqui a gente só pede dignidade cadastral.</p>
+      <div class="name-box">
+        <label for="studentName">Nome para o certificado</label>
+        <input id="studentName" autocomplete="name" placeholder="Digite seu nome completo">
+        <div class="error" id="nameError">Digite pelo menos 3 caracteres. “Eu” não dá certificado, dá apelido.</div>
+      </div>
+      <p><strong>Missão:</strong> detectar sinais de página clonada em um ambiente fictício de fintech. Procure sinais sutis de fraude sem depender de marcações visuais: domínio, linguagem, coleta de dados, canais de atendimento e consistência institucional.</p>
+      <button id="startBtn">Entrar no treinamento</button>
+    </div>
+  </div>
+
+  <div class="modal" id="certModal">
+    <div class="modal-card">
+      <h2>Certificado gerado</h2>
+      <p>Baixe o PNG do certificado. Ele inclui participante, data, hash, pontuação e competências praticadas.</p>
+      <img class="cert-preview" id="certPreview" alt="Prévia do certificado PNG">
+      <div class="cert-actions">
+        <button id="downloadCert">Baixar certificado PNG</button>
+        <button id="closeCert" style="background:#eee;color:#2b2038">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const SALT = "BSP_AWARENESS_2026_MARI";
+const XOR_KEY = "notinha_no_mouse_sem_redflag_gritando";
+const ENC_FINDINGS = "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";
+const ENC_SKILLS = "LDwkNi8/IA0rIRo+PCpBVW1FOiAeICw/RC0PpP4LGxoRQQoBTzs9OEVODA4yrcIxBABVFkUsGgsMNgFFAANMFR4vCAEYAQAaEAYACFpLQkhDFgoKMRkGExoGPrDCrvwdRQADTBQVOKTYBxcID0QOHBsdDwcLCD4CQ38MAhASpvgSRRs+FQREA0wECTgCHAEVEwcFTx0AFwAPBE99Qk99PwoWHAs3FgYEMhcLEAlMBQJ/BB0FERUPRAYACxEfBwwAfwoKfw4dEBcAMRAMDDYBSUQSAwoCMUcXSQcEAAwOTgsbSQ0JEyutzDBDTVlTRwkSCQQ7E6bDpc8ORzsCUgoVDw8NHE4AEgANAQA2HUN/Aw4DFgI+sMKu/B1JRBQDBQYvpNtJEUENCwEdBgcdrcIPPAcOfwQBBgcMKwYGBDAcBAhITk1HfSYECBgID6fIrcwbSQ0aovIaBjwMTxEWRTYdEQgtFAQHAx9BETYUBwgYDAsKGwtPFwYAHggxDQoxGQoGUxAsEgEMLFIACUYcCQ4sDxsHE09MOQ==";
+
+function xorDecode(payload){
+  const raw = atob(payload);
+  const bytes = new Uint8Array(raw.length);
+  for(let i=0;i<raw.length;i++){
+    bytes[i] = raw.charCodeAt(i) ^ XOR_KEY.charCodeAt(i % XOR_KEY.length);
+  }
+  const out = new TextDecoder("utf-8").decode(bytes);
+  if(!out.startsWith(SALT)) throw new Error("Conteúdo inválido");
+  return out.slice(SALT.length);
+}
+
+const findings = JSON.parse(xorDecode(ENC_FINDINGS));
+const trainingSkills = JSON.parse(xorDecode(ENC_SKILLS));
+
+const requiredForCert = 10;
+
+let muted = false;
+let audioCtx = null;
+
+function beep(type="click"){
+  if(muted) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    const freq = type === "found" ? 880 : type === "cert" ? 660 : type === "bad" ? 180 : 420;
+    o.frequency.setValueAtTime(freq, now);
+    o.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.08);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(type === "found" ? 0.055 : 0.035, now + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.13);
+    o.type = type === "bad" ? "sawtooth" : "sine";
+    o.start(now);
+    o.stop(now + 0.15);
+  }catch(e){}
+}
+
+function moveMoneyCursor(e){
+  const c = document.getElementById("moneyCursor");
+  if(!c) return;
+  c.style.left = e.clientX + "px";
+  c.style.top = e.clientY + "px";
+}
+document.addEventListener("mousemove", moveMoneyCursor, {passive:true});
+document.addEventListener("touchstart", ()=> {
+  const c = document.getElementById("moneyCursor");
+  if(c) c.style.display = "none";
+}, {passive:true});
+document.addEventListener("click", ()=>beep("click"), true);
+
+const found = new Set();
+let participantName = "";
+let certDataUrl = "";
+const score = document.getElementById("score");
+const comment = document.getElementById("comment");
+const foundList = document.getElementById("foundList");
+const toast = document.getElementById("toast");
+const certBtn = document.getElementById("certBtn");
+const certHint = document.getElementById("certHint");
+const participantNameLabel = document.getElementById("participantNameLabel");
+
+function renderFound(){
+  score.textContent = found.size;
+  foundList.innerHTML = "";
+  [...found].forEach(id=>{
+    const item = document.createElement("div");
+    item.className = "found-item";
+    item.innerHTML = `<span class="check">✓</span><span>${findings[id].label}</span>`;
+    foundList.appendChild(item);
+  });
+  const unlocked = found.size >= requiredForCert;
+  certBtn.disabled = !unlocked;
+  certHint.textContent = unlocked
+    ? "Certificado liberado. Agora pode sair do treinamento sem virar estatística de phishing."
+    : `Encontre pelo menos ${requiredForCert} red flags para liberar o certificado.`;
+}
+
+function showFinding(id){
+  beep('found');
+  const f = findings[id];
+  if(!f) return;
+  found.add(id);
+  comment.innerHTML = `<h3>${f.title}</h3><p>${f.text}</p>`;
+  document.querySelectorAll(".hotspot").forEach(el=>el.classList.remove("active"));
+  const active = document.querySelector(`.hotspot[data-id="${id}"]`);
+  if(active) active.classList.add("active");
+  renderFound();
+  toast.textContent = "Red flag identificada: " + f.label;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),1900);
+}
+
+function sanitizeName(value){
+  return String(value || "").replace(/\s+/g," ").trim();
+}
+
+function simpleHash(text){
+  let h = 2166136261;
+  for(let i=0;i<text.length;i++){
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h,16777619);
+  }
+  return ("00000000" + (h >>> 0).toString(16).toUpperCase()).slice(-8);
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  const words = text.split(" ");
+  let line = "";
+  for(let n = 0; n < words.length; n++){
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+    if(metrics.width > maxWidth && n > 0){
+      ctx.fillText(line, x, y);
+      line = words[n] + " ";
+      y += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line, x, y);
+  return y + lineHeight;
+}
+
+function drawCertificate(){
+  const canvas = document.createElement("canvas");
+  canvas.width = 1600;
+  canvas.height = 1120;
+  const ctx = canvas.getContext("2d");
+  const date = new Date();
+  const dateText = date.toLocaleDateString("pt-BR");
+  const hash = simpleHash(participantName + date.toISOString() + [...found].join("|"));
+
+  const grad = ctx.createLinearGradient(0,0,1600,1120);
+  grad.addColorStop(0,"#1a092b");
+  grad.addColorStop(.45,"#5b13c8");
+  grad.addColorStop(1,"#b26cff");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,1600,1120);
+
+  ctx.fillStyle = "rgba(255,255,255,.08)";
+  for(let i=0;i<18;i++){
+    ctx.beginPath();
+    ctx.arc(80+i*95, 120+(i%5)*180, 80+(i%3)*26, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = "#ffffff";
+  ctx.shadowColor = "rgba(0,0,0,.28)";
+  ctx.shadowBlur = 34;
+  ctx.fillRect(90,90,1420,940);
+  ctx.shadowBlur = 0;
+
+  ctx.strokeStyle = "#7b2cff";
+  ctx.lineWidth = 10;
+  ctx.strokeRect(120,120,1360,880);
+  ctx.strokeStyle = "#d8c5ff";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(150,150,1300,820);
+
+  ctx.fillStyle = "#7b2cff";
+  ctx.beginPath();
+  ctx.roundRect(190,190,110,110,30);
+  ctx.fill();
+  ctx.fillStyle = "#fff";
+  ctx.font = "900 58px Inter, Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("B",245,262);
+
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#241033";
+  ctx.font = "900 42px Inter, Arial";
+  ctx.fillText("Be Safe Pay",320,240);
+  ctx.fillStyle = "#6b587b";
+  ctx.font = "700 23px Inter, Arial";
+  ctx.fillText("Treinamento de Awareness em Páginas Clonadas",320,278);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#7b2cff";
+  ctx.font = "900 72px Georgia, serif";
+  ctx.fillText("Certificado de Conclusão",800,390);
+
+  ctx.fillStyle = "#6b587b";
+  ctx.font = "600 28px Inter, Arial";
+  ctx.fillText("Certificamos que",800,458);
+
+  ctx.fillStyle = "#1b1028";
+  ctx.font = "900 58px Inter, Arial";
+  ctx.fillText(participantName,800,535);
+
+  ctx.fillStyle = "#5d516a";
+  ctx.font = "600 28px Inter, Arial";
+  ctx.fillText("concluiu o treinamento prático de identificação de página clonada bancária.",800,595);
+
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#241033";
+  ctx.font = "900 30px Inter, Arial";
+  ctx.fillText("Competências praticadas",220,680);
+
+  const skills = trainingSkills;
+  ctx.font = "600 24px Inter, Arial";
+  ctx.fillStyle = "#3d3348";
+  let y = 730;
+  skills.forEach(skill=>{
+    ctx.fillStyle = "#7b2cff";
+    ctx.beginPath(); ctx.arc(230,y-8,8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#3d3348";
+    y = wrapText(ctx, skill, 255, y, 1030, 34) + 4;
+  });
+
+  ctx.fillStyle = "#f4efff";
+  ctx.fillRect(190,910,1220,58);
+  ctx.fillStyle = "#3d3348";
+  ctx.font = "800 22px Inter, Arial";
+  ctx.fillText(`Data: ${dateText}`,220,947);
+  ctx.fillText(`Pontuação: ${found.size}/12 sinais identificados`,520,947);
+  ctx.fillText(`Hash: BSP-${hash}`,980,947);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#1b1028";
+  ctx.font = "italic 38px Georgia, serif";
+  ctx.fillText("Mariana BS (Instrutora)",800,1018);
+  ctx.fillStyle = "#6b587b";
+  ctx.font = "700 20px Inter, Arial";
+  ctx.fillText("Este certificado pertence a um treinamento fictício de conscientização. Não representa instituição financeira real.",800,1052);
+
+  return canvas.toDataURL("image/png");
+}
+
+document.querySelectorAll(".hotspot").forEach(el=>{
+  el.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    showFinding(el.dataset.id);
+  });
+});
+
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  found.clear();
+  renderFound();
+  comment.innerHTML = `<h3>Investigue a página</h3><p>Nem tudo que parece bonito é confiável. Clique nos pontos que você desconfiar e veja a análise.</p>`;
+  document.querySelectorAll(".hotspot").forEach(el=>el.classList.remove("active"));
+});
+
+document.getElementById("revealBtn").addEventListener("click",()=>{
+  Object.keys(findings).filter(k=>k !== "hidden").forEach(k=>found.add(k));
+  found.add("hidden");
+  renderFound();
+  comment.innerHTML = `<h3>${findings.hidden.title}</h3><p>${findings.hidden.text}</p>`;
+});
+
+document.getElementById("startBtn").addEventListener("click",()=>{
+  const name = sanitizeName(document.getElementById("studentName").value);
+  const err = document.getElementById("nameError");
+  if(name.length < 3){
+    err.classList.add("show");
+    return;
+  }
+  participantName = name;
+  participantNameLabel.textContent = participantName;
+  err.classList.remove("show");
+  document.getElementById("intro").classList.remove("show");
+});
+
+document.getElementById("studentName").addEventListener("keydown",(e)=>{
+  if(e.key === "Enter") document.getElementById("startBtn").click();
+});
+
+certBtn.addEventListener("click",()=>{
+  if(found.size < requiredForCert){ beep('bad'); return; }
+  beep('cert');
+  certDataUrl = drawCertificate();
+  document.getElementById("certPreview").src = certDataUrl;
+  document.getElementById("certModal").classList.add("show");
+});
+
+document.getElementById("downloadCert").addEventListener("click",()=>{
+  if(!certDataUrl) return;
+  const a = document.createElement("a");
+  a.href = certDataUrl;
+  a.download = `certificado-be-safe-pay-${participantName.toLowerCase().replace(/[^a-z0-9]+/gi,"-")}.png`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+document.getElementById("muteBtn").addEventListener("click",()=>{
+  muted = !muted;
+  document.getElementById("muteBtn").textContent = muted ? "Som: desligado" : "Som: ligado";
+});
+
+document.getElementById("closeCert").addEventListener("click",()=>{
+  document.getElementById("certModal").classList.remove("show");
+});
+
+document.querySelectorAll("button,input,a").forEach(el=>{
+  el.addEventListener("click", e=>{
+    if(!e.target.closest(".modal-card")) e.preventDefault();
+  });
+});
+
+renderFound();
+</script>
+</body>
+</html>
